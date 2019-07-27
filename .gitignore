@@ -25,3 +25,12 @@ hs_err_pid*
 # jetbrains
 .idea/
 *.iml
+*.ipr
+*.iws
+
+# gradle
+.gradle/
+build/
+gradle/
+gradlew
+gradlew.bat
