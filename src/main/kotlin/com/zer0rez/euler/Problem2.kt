@@ -1,5 +1,6 @@
 package com.zer0rez.euler
 
+import com.zer0rez.euler.Util.swapin
 import java.io.PrintStream
 
 /*
@@ -12,12 +13,12 @@ By considering the terms in the Fibonacci sequence whose values do not exceed fo
 class Problem2 : Problem {
 
     override fun solve(out: PrintStream) {
-        var total = 0
         var terms = intArrayOf(1, 2)
-        do {
-            if (terms[0] % 2 == 0) total += terms[0]
-            Util.swapin(terms, terms.sum())
-        } while (terms[1] < 4000000)
+        var total = terms.sum()
+        while (terms[1] < 4000000) {
+            swapin(terms, terms.sum())
+            if(terms[0] % 2 == 0) total += terms[0]
+        }
         out.println("Problem 2: $terms : $total")
     }
 }
