@@ -1,6 +1,7 @@
 
 import com.zer0rez.euler.Problem
 import com.zer0rez.euler.Problem1
+import com.zer0rez.euler.Problem2
 import com.zer0rez.euler.TextAreaOutputStream
 import tornadofx.*
 import java.io.PrintStream
@@ -29,7 +30,7 @@ class ProblemView : View() {
 }
 
 class Problems : Controller(), Problem {
-    val problems = arrayOf(Problem1::class.java)//, Problem2::class.java)
+    val problems = arrayOf(Problem1::class.java, Problem2::class.java)
 
     override fun solve(out: PrintStream) {
         problems.forEach { it.newInstance().solve(out) }
