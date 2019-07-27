@@ -1,7 +1,11 @@
 package com.zer0rez.euler
 
-import java.io.PrintStream
-
 interface Problem {
-    fun solve(out: PrintStream)
+    fun solve(): Solution
 }
+
+data class Solution (
+    val number: Long,
+    val answer: String,
+    val extra: String
+)

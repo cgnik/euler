@@ -1,4 +1,4 @@
-package com.zer0rez.euler
+package com.zer0rez.euler.util
 
 object Util {
     fun swapin(target: IntArray, arrow: Int): Int {

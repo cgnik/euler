@@ -1,8 +1,10 @@
 
 import com.zer0rez.euler.Problem
-import com.zer0rez.euler.Problem1
-import com.zer0rez.euler.Problem2
-import com.zer0rez.euler.TextAreaOutputStream
+import com.zer0rez.euler.Solution
+import javafx.collections.ObservableList
+import javafx.geometry.Pos
+import javafx.scene.layout.Priority
+import org.reflections.Reflections
 import tornadofx.*
 import java.io.PrintStream
 
@@ -18,22 +20,23 @@ class ProblemView : View() {
     override val root = vbox {
         label("Project Euler Calculator")
         button("Begin Calculation") {
-            action {
-                controller.solve(out)
-            }
+            vboxConstraints { alignment = Pos.CENTER }
+            action { controller.solve() }
         }
-        textarea {
-            out = PrintStream(TextAreaOutputStream(this))
+        tableview(controller.solutions) {
+            vboxConstraints { vGrow = Priority.ALWAYS }
+            readonlyColumn("Problem",Solution::number)
+            readonlyColumn("Answer",Solution::answer)
+            readonlyColumn("Extra Info",Solution::extra)
         }
     }
-
 }
 
-class Problems : Controller(), Problem {
-    val problems = arrayOf(Problem1::class.java, Problem2::class.java)
-
-    override fun solve(out: PrintStream) {
-        problems.forEach { it.newInstance().solve(out) }
+class Problems : Controller() {
+    var solutions: ObservableList<Solution> = ArrayList<Solution>().observable()
+    fun solve() {
+        val problems = Reflections(Problem::class.java.`package`.name).getSubTypesOf(Problem::class.java).sortedBy { it.name }
+        problems.forEach { solutions.add(it.newInstance().solve()) }
     }
 }
 

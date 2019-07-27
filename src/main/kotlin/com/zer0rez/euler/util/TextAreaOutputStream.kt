@@ -1,4 +1,4 @@
-package com.zer0rez.euler
+package com.zer0rez.euler.util
 
 import javafx.scene.control.TextArea
 import java.io.IOException
