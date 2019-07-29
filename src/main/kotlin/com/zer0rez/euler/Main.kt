@@ -18,6 +18,9 @@ class ProblemView : View() {
     val controller: Problems by inject()
 
     override val root = vbox {
+        vbox {
+            setMinSize(1024.0, 400.0)
+        }
         label("Project Euler Calculator")
         button("Begin Calculation") {
             vboxConstraints { alignment = Pos.CENTER }
@@ -25,6 +28,7 @@ class ProblemView : View() {
         }
         tableview(controller.solutions) {
             vboxConstraints { vGrow = Priority.ALWAYS }
+            columnResizePolicy = SmartResize.POLICY
             readonlyColumn("Problem",Solution::number)
             readonlyColumn("Answer",Solution::answer)
             readonlyColumn("Extra Info",Solution::extra)
