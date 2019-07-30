@@ -14,18 +14,24 @@ compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-
 dependencies {
     ext.kotlin_version = '1.3.41'
     compile "no.tornado:tornadofx:1.7.15"
     compile "org.reflections:reflections:0.9.11"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testCompile 'org.junit.jupiter:junit-jupiter-params:5.5.1'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
+
 }
 repositories {
     mavenCentral()
 }
 compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "1.8"
+}
+test {
+    useJUnitPlatform{
+        includeEngines 'junit-jupiter'
     }
 }
