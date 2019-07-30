@@ -3,13 +3,11 @@ package com.zer0rez.euler.util
 import kotlin.math.sqrt
 
 object Util {
-
-    fun isPalindrome(num: Long): Boolean {
+    fun isPalindrome(num: Int): Boolean {
         if (num < 10) return false;
         val ns = num.toString()
         val end = ns.length - 1
         for (i in 0..(ns.length / 2)) {
-            println("$i : $ns, /2 ${end - i}, end: $end, ")
             if (i >= end) break
             if (ns[i] != ns[end - i]) return false
         }
@@ -36,14 +34,11 @@ object Util {
     fun factorize(term: Long) = sequence {
         var target = term
         var current = sqrt(target.toDouble()).toLong()
-        while (current % 2 == 0L) {
-            current /= 2
-        }
-        while (current < target) {
-            print(" $current::$target")
+        while (current % 2 == 0L) current /= 2
+        while (current > 0 && current < target) {
             if (target % current == 0L) {
                 yield(current)
-                target = (target / current).toLong()
+                target /= current
             }
             current -= 2
         }

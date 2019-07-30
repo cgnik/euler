@@ -21,7 +21,8 @@ internal class UtilTest {
 
     @Test
     fun factorize() {
-        //assertArrayEquals(longArrayOf(2, 5), Util.factorize(10L).toList().toLongArray())
+        var result = Util.factorize(10L).toList().toLongArray()
+        assertArrayEquals(longArrayOf(2, 5), result)
     }
 
     @Test
