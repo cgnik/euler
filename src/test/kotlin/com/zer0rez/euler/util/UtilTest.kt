@@ -34,14 +34,11 @@ internal class UtilTest {
 
     @Test
     fun factorize() {
-//        var result = 10L.factorize().toList().toLongArray()
-//        assertArrayEquals(longArrayOf(5, 2), result)
-//        result = 13L.factorize().toList().toLongArray()
-//        assertArrayEquals(longArrayOf(), result)
-//        result = 22L.factorize().toList().toLongArray()
-//        assertArrayEquals(longArrayOf(2, 11), result)
-//        result = 40L.factorize().toList().toLongArray()
-//        assertArrayEquals(longArrayOf(2, 5), result)
+        assertArrayEquals(longArrayOf(1), 47L.factorize().toList().toLongArray())
+//        assertArrayEquals(longArrayOf(5, 2), 10L.factorize().toList().toLongArray())
+//        assertArrayEquals(longArrayOf(), 13L.factorize().toList().toLongArray())
+//        assertArrayEquals(longArrayOf(2, 11), 22L.factorize().toList().toLongArray())
+//        assertArrayEquals(longArrayOf(2, 5), 40L.factorize().toList().toLongArray())
     }
 
     @Test

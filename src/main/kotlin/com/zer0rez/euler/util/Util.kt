@@ -3,7 +3,10 @@ package com.zer0rez.euler.util
 import kotlin.math.sqrt
 
 fun Int.isDivisibleBy(i: Int): Boolean = this % i == 0
-fun Int.isDivisibleByAll(i: IntArray): Boolean = i.all{this.isDivisibleBy(it)}
+fun Int.isDivisibleByAll(i: IntArray): Boolean = i.all { this.isDivisibleBy(it) }
+
+fun Long.isDivisibleBy(i: Long): Boolean = this % i == 0L
+fun Long.isDivisibleByAny(i: Collection<Long>): Boolean = i.any { this.isDivisibleBy(it) }
 
 fun Int.isPalindrome(): Boolean {
     if (this < 10) return false;
@@ -38,7 +41,7 @@ fun Long.factorize(): Sequence<Long> {
     var current = sqrt(target.toDouble()).toLong()
     return sequence {
         while (current % 2 == 0L) current /= 2
-        while (current < target) {
+        while (current > 0 && current < target) {
             if (target % current == 0L) {
                 yield(current)
                 target /= current
