@@ -2,7 +2,7 @@ package com.zer0rez.euler.problems
 
 import com.zer0rez.euler.Problem
 import com.zer0rez.euler.Solution
-import com.zer0rez.euler.util.Util.isPalindrome
+import com.zer0rez.euler.util.isPalindrome
 
 class Problem4 : Problem {
     private data class Product(val product: Int, val x: Int, val y: Int)
@@ -11,7 +11,7 @@ class Problem4 : Problem {
         var products = ArrayList<Product>()
         for (x in 999 downTo 100) {
             for (y in 999 downTo 100) {
-                if (isPalindrome(x * y)) {
+                if ((x*y).isPalindrome()) {
                     products.add(Product(x * y, x, y))
                 }
             }
