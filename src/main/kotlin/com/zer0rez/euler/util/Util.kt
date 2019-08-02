@@ -51,6 +51,6 @@ fun Long.factorize(): Sequence<Long> {
     }
 }
 
-fun IntArray.productSeries(size: Int): List<Pair<Int, List<Int>>> = IntRange(0, this.count() - size).map { i ->
-    Pair(this.slice(i until i + size).reduce { t, x -> x * t }, this.slice(i until i + size))
+fun LongArray.productSeries(size: Int) = IntRange(0, this.count() - size).map { i ->
+    Pair(this.slice(i until i + size).reduce { t: Long, x: Long -> x * t }, this.slice(i until i + size))
 }
