@@ -1,5 +1,4 @@
 from math import sqrt
-from time import perf_counter, strftime
 
 
 def is_divisible(a, b):
@@ -12,7 +11,7 @@ def any_divisors(a, *bs):
 
 
 def divisible_by(a, *bs):
-    return any(any_divisors(a, *bs))
+    return len(bs) > 0 and any(any_divisors(a, *bs))
 
 
 def factors(num):

@@ -3,54 +3,66 @@ import threading
 from util import divisible_by
 
 
+def candidates():
+    x = 3
+    while True:
+        x += 2
+        yield x
+    yield
+
+
+class PrimeCandidateGenerator:
+    def __init__(self):
+        self.lock = threading.Lock()
+        self.it = candidates()
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        with self.lock:
+            return self.it.__next__()
+
+
 class Primerator:
-    def __init__(self, limit, thread_count):
-        self.thread_count = thread_count
+    def __init__(self, limit):
         self.limit = limit
-        self.accumulator = []
-        self.output_lock = threading.Lock()
-        self.yield_lock = threading.Lock()
+        self.accumulator = [2]
+        self.generator = PrimeCandidateGenerator()
         self.prime_lock = threading.Lock()
 
-    def _find_primes_(self, limit):
-        primes = []
-        for x in range(2, limit):
-            if x % 2 == 0: continue
-            divisors = filter(lambda b: (b <= int(x / 2)), primes)
-            if not divisible_by(x, *divisors):
-                primes.append(x)
-                with self.yield_lock:
-                    yield x
-        yield None
-
     def _status_(self, primes):
-        with self.output_lock:
-            if len(primes) % 100 == 0:
-                print('.', end='')
-            if len(primes) % 1000 == 0:
-                print(f"latest: {primes[-1]}")
+        if not len(primes): return
+        if len(primes) % 100 == 0:
+            print('.', end='')
+        if len(primes) % 1000 == 0:
+            print(f"latest: {primes[-1]}")
+
+    def _add_prime_(self, x):
+        with self.prime_lock:
+            self.accumulator.append(x)
+            self._status_(self.accumulator)
+
+    def is_prime(self, x):
+        divisors = filter(lambda b: (b <= int(x / 2)), self.accumulator)
+        return not divisible_by(x, *divisors)
 
     def _one_thread_(self):
-        last_prime = 0
-        for prime in self._find_primes_(self.limit):
-            if not prime:
+        for candidate in self.generator:
+            if candidate > self.limit:
                 break
-            with self.prime_lock:
-                last_prime = prime
-                self.accumulator.append(prime)
-            self._status_(self.accumulator)
-        print(f"Thread exiting; {last_prime}")
+            if self.is_prime(candidate):
+                self._add_prime_(candidate)
 
-    def primes(self):
+    def primes(self, thread_count=8):
         threads = []
-        for i in range(0, self.thread_count):
+        for i in range(0, thread_count):
             threads.append(threading.Thread(target=self._one_thread_))
             threads[-1].start()
-        for t in threads:
-            t.join()
+            for t in threads: t.join()
         return self.accumulator
 
 
 # 2000000
-p = Primerator(20000, 8).primes()
+p = Primerator(20000).primes()
 print(f"\nAnswer: {sum(p)}")
