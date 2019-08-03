@@ -1,5 +1,5 @@
 from math import sqrt
-from time import time
+from time import perf_counter, strftime
 
 
 def is_divisible(a, b):
