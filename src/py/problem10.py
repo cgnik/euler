@@ -34,9 +34,9 @@ class Primerator:
     def _status_(self, primes):
         if not len(primes): return
         if len(primes) % 100 == 0:
-            print('.', end='')
+            print('.', end='',flush=True)
         if len(primes) % 1000 == 0:
-            print(f"latest: {primes[-1]}")
+            print(f"latest: {primes[-1]}; {len(primes)} found so far.")
 
     def _add_prime_(self, x):
         with self.prime_lock:
@@ -45,7 +45,7 @@ class Primerator:
 
     def is_prime(self, x):
         divisors = filter(lambda b: (b <= int(x / 2)), self.accumulator)
-        return not divisible_by(x, *divisors)
+        return not divisible_by(x, divisors)
 
     def _one_thread_(self):
         for candidate in self.generator:
@@ -64,5 +64,5 @@ class Primerator:
 
 
 # 2000000
-p = Primerator(20000).primes()
-print(f"\nAnswer: {sum(p)}")
+p = Primerator(2000000).primes()
+print(f"PRIMES: {p}\n\nAnswer: {sum(p)}")
