@@ -34,3 +34,8 @@ build/
 gradle/
 gradlew
 gradlew.bat
+
+# python
+**/venv/
+**/*.pyc
+
