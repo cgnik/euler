@@ -45,3 +45,20 @@ def find_palindromes():
             if is_palindrome(i * j):
                 all.append((i * j, i, j))
     return all
+
+
+def is_prime(x, lower_primes):
+    divisors = filter(lambda b: (b <= int(x / 2)), lower_primes)
+    return not divisible_by(x, divisors)
+
+
+def is_prime_quick(x):
+    if x <= 3:
+        return x > 1
+    elif x % 2 == 0 or x % 3 == 0:
+        return False
+    i = 5
+    while i * i < x:
+        if x % i == 0: return False
+        i += 2
+    return True

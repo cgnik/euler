@@ -1,6 +1,6 @@
 import threading
 
-from util import divisible_by
+from util import divisible_by, is_prime_quick
 
 
 def candidates():
@@ -34,7 +34,7 @@ class Primerator:
     def _status_(self, primes):
         if not len(primes): return
         if len(primes) % 100 == 0:
-            print('.', end='',flush=True)
+            print('.', end='', flush=True)
         if len(primes) % 1000 == 0:
             print(f"latest: {primes[-1]}; {len(primes)} found so far.")
 
@@ -43,15 +43,11 @@ class Primerator:
             self.accumulator.append(x)
             self._status_(self.accumulator)
 
-    def is_prime(self, x):
-        divisors = filter(lambda b: (b <= int(x / 2)), self.accumulator)
-        return not divisible_by(x, divisors)
-
     def _one_thread_(self):
         for candidate in self.generator:
             if candidate > self.limit:
                 break
-            if self.is_prime(candidate):
+            if is_prime_quick(candidate):
                 self._add_prime_(candidate)
 
     def primes(self, thread_count=8):
