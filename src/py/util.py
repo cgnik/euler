@@ -58,7 +58,10 @@ def is_prime_quick(x):
     elif x % 2 == 0 or x % 3 == 0:
         return False
     i = 5
-    while i * i < x:
+    while i * i <= x:
+    # while i * 3 <= x: // works exactly the same as above, though more cycles
         if x % i == 0: return False
         i += 2
     return True
+
+
