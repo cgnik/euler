@@ -1,4 +1,5 @@
 from math import sqrt
+import numpy as np
 
 
 def is_divisible(a, b):
@@ -59,9 +60,19 @@ def is_prime_quick(x):
         return False
     i = 5
     while i * i <= x:
-    # while i * 3 <= x: // works exactly the same as above, though more cycles
+        # while i * 3 <= x: // works exactly the same as above, though more cycles
         if x % i == 0: return False
         i += 2
     return True
 
 
+def groups(x, size, start=0):
+    return np.vstack([x[:, n:n + size] for n in range(start, x.shape[0] - size + 1) if len(x[n]) >= size])
+
+
+def flipdiag(x, dim):
+    a = np.zeros((dim, dim))
+    for i in range(0, dim):
+        hd = x.diagonal(offset=(-1 * i))
+        a[i][0:len(hd)] = hd
+    return a
