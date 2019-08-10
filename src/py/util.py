@@ -72,7 +72,7 @@ def groups(x, size, start=0):
 
 def flipdiag(x, dim):
     a = np.zeros((dim, dim))
-    for i in range(0, dim):
-        hd = x.diagonal(offset=(-1 * i))
+    for i in range(-1*dim, dim):
+        hd = x.diagonal(offset=i)
         a[i][0:len(hd)] = hd
     return a
