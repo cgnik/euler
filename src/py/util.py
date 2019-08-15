@@ -19,7 +19,6 @@ def divisible_by(a, bs):
 
 def factors(num):
     factor = int(sqrt(num))
-    print(f"starting factorization with {factor}")
     while factor % 2 == 0:
         factor = int(factor / 2)
     while num > 1:
@@ -28,6 +27,18 @@ def factors(num):
             num = int(num / factor)
         factor -= 2
     yield num
+
+
+def all_factors(num):
+    factor = num
+    while factor > 0:
+        if num % factor == 0:
+            yield factor
+        if factor > num / 2:
+            factor = int(factor / 2)
+            yield 2
+        else:
+            factor -= 1
 
 
 def is_palindrome(x):
@@ -72,7 +83,7 @@ def groups(x, size, start=0):
 
 def flipdiag(x, dim):
     a = np.zeros((dim, dim))
-    for i in range(-1*dim, dim):
+    for i in range(-1 * dim, dim):
         hd = x.diagonal(offset=i)
         a[i][0:len(hd)] = hd
     return a
