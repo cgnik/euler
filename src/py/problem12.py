@@ -41,8 +41,8 @@ def triangulate(start=2 ** 30, limit=100):
 
 
 def problem12():
-    # 16792205430
-    start_threshold = 16792205430
+    # 17250509640
+    start_threshold = 17250509640
     for answer in triangulate(start_threshold):
         cart = cartesian_factors(answer[0], answer[1])
         # print(f"\nN:{answer[0]}:\n\tfactors: {answer[1]};\n\tcartesian {cart}")
