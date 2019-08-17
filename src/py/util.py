@@ -1,4 +1,5 @@
 from math import sqrt, ceil
+import itertools as it
 import numpy as np
 
 
@@ -104,3 +105,40 @@ def flipdiag(x, dim):
         hd = x.diagonal(offset=i)
         a[i][0:len(hd)] = hd
     return a
+
+
+def cartesian(x):
+    cart = np.array([p for p in it.product(x, x, x, x)])
+    return cart.prod(axis=1)
+
+
+def cartesian_factors(n, facs):
+    # THIS IS INADEQUATE - SKIPS THINGS LIKE 2**5 WHEN 2 APPEARS QUINCE IN FACTORS
+    cart = np.unique(list(cartesian(facs)))
+    return facs, cart[np.where(n % cart == 0)]
+
+
+def naturals(seed=1):
+    num = seed
+    while True:
+        yield num
+        num += 1
+
+
+def triangles():
+    last = 0
+    for n in naturals():
+        last = n + last
+        yield last
+
+
+def triangulate(start=2 ** 30, limit=100):
+    count = 0
+    for x in triangles():
+        count += 1
+        if x > start:
+            facs = list(factors(x, log=False))
+            if len(facs) > limit:
+                return x, facs
+            else:
+                yield x, facs
