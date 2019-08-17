@@ -1,7 +1,8 @@
-from functools import reduce
-from math import sqrt, ceil
 import itertools as it
+from functools import reduce
+from math import sqrt
 from operator import mul
+
 import numpy as np
 
 
@@ -41,18 +42,6 @@ def factors(num, log=False):
     # compensate for 22/11 problem
     if num % n == 0: yield n
     yield num
-
-
-def all_factors(num):
-    factor = num
-    while factor > 0:
-        if num % factor == 0:
-            yield factor
-        if factor > num / 2:
-            factor = int(factor / 2)
-            yield 2
-        else:
-            factor -= 1
 
 
 def is_palindrome(x):
@@ -103,12 +92,22 @@ def flipdiag(x, dim):
     return a
 
 
-def cartesian(x, copies=4):
-    return np.array([reduce(mul,x) for x in it.product(*[x for i in range(0,copies)])])
+def cartesian(x, bound):
+    products = x
+    last_products = []
+    complete = False
+    while not complete:
+        products = np.unique([reduce(mul, x) for x in it.product(x, products)])
+        products = list(filter(bound, products))
+        products.sort()
+        if products == last_products:
+            complete = True
+        last_products = products
+    return np.array(products)
 
 
 def cartesian_factors(n, facs):
-    cart = np.unique(list(cartesian(facs)))
+    cart = cartesian(facs, lambda x: n % x == 0)
     return facs, cart[np.where(n % cart == 0)]
 
 
