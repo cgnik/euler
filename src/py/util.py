@@ -1,5 +1,7 @@
+from functools import reduce
 from math import sqrt, ceil
 import itertools as it
+from operator import mul
 import numpy as np
 
 
@@ -23,28 +25,22 @@ def divisible_by(a, bs):
     return any(any_divisors(a, bs))
 
 
-def factors(num, log=True, primes_only=False):
-    if log: print(f"factoring {num}: ", end='', flush=True)
-    target = num
-    max_factor = int(sqrt(num))
+def factors(num, log=False):
+    n = num
     yield 1
-    for x in [2, 3, 5]:
-        while target % x == 0:
+    for x in [2, 3, 5, 7]:
+        while n % x == 0:
+            n = int(n / x)
             yield x
-            target = int(target / x)
-    factor = 5
-    factor_count = 0
-    while factor <= max_factor:
-        factor += 1
-        while target % factor == 0:
-            if log: print(".", end='', flush=True)
-            factor_count += 1
-            yield factor
-            target = int(target / factor)
-    # fall-through large factor case, like 22/11
-    if num % target == 0: yield target
-    if not primes_only: yield num
-    if log: print("Done.", flush=True)
+    f = 11
+    while f < int(sqrt(n)):
+        if n % f == 0:
+            yield f
+            n = int(n / f)
+        f += 2
+    # compensate for 22/11 problem
+    if num % n == 0: yield n
+    yield num
 
 
 def all_factors(num):
@@ -107,13 +103,11 @@ def flipdiag(x, dim):
     return a
 
 
-def cartesian(x):
-    cart = np.array([p for p in it.product(x, x, x, x)])
-    return cart.prod(axis=1)
+def cartesian(x, copies=4):
+    return np.array([reduce(mul,x) for x in it.product(*[x for i in range(0,copies)])])
 
 
 def cartesian_factors(n, facs):
-    # THIS IS INADEQUATE - SKIPS THINGS LIKE 2**5 WHEN 2 APPEARS QUINCE IN FACTORS
     cart = np.unique(list(cartesian(facs)))
     return facs, cart[np.where(n % cart == 0)]
 
@@ -130,15 +124,3 @@ def triangles():
     for n in naturals():
         last = n + last
         yield last
-
-
-def triangulate(start=2 ** 30, limit=100):
-    count = 0
-    for x in triangles():
-        count += 1
-        if x > start:
-            facs = list(factors(x, log=False))
-            if len(facs) > limit:
-                return x, facs
-            else:
-                yield x, facs
