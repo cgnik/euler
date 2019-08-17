@@ -1,5 +1,10 @@
-from math import sqrt
+from math import sqrt, ceil
 import numpy as np
+
+
+def ticklog(count, increment):
+    if count % increment == 0:
+        print(".", end='', flush=True)
 
 
 def is_divisible(a, b):
@@ -17,16 +22,28 @@ def divisible_by(a, bs):
     return any(any_divisors(a, bs))
 
 
-def factors(num):
-    factor = int(sqrt(num))
-    while factor % 2 == 0:
-        factor = int(factor / 2)
-    while num > 1:
-        if num % factor == 0:
+def factors(num, log=True, primes_only=False):
+    if log: print(f"factoring {num}: ", end='', flush=True)
+    target = num
+    max_factor = int(sqrt(num))
+    yield 1
+    for x in [2, 3, 5]:
+        while target % x == 0:
+            yield x
+            target = int(target / x)
+    factor = 5
+    factor_count = 0
+    while factor <= max_factor:
+        factor += 1
+        while target % factor == 0:
+            if log: print(".", end='', flush=True)
+            factor_count += 1
             yield factor
-            num = int(num / factor)
-        factor -= 2
-    yield num
+            target = int(target / factor)
+    # fall-through large factor case, like 22/11
+    if num % target == 0: yield target
+    if not primes_only: yield num
+    if log: print("Done.", flush=True)
 
 
 def all_factors(num):
