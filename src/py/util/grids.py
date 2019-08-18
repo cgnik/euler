@@ -32,6 +32,7 @@ def gen_paths(data):
 
     paths = list(routes_matching(origin, sticks, 0))
     while paths[0][-1] != data[-1][-1]:
+        print('.',end='',flush=True)
         new_paths = []
         for path in paths:
             new_paths.extend([join_path(path, a) for a in routes_matching(path[-1], sticks, 0)])
