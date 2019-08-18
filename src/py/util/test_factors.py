@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 import numpy as np
-from util import factors
+from factoring import factors
 
 
 class Test_factors(TestCase):

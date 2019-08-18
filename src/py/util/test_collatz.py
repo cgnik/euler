@@ -1,7 +1,9 @@
 from unittest import TestCase
 
 import numpy as np
-from util import factors, cartesian, collatz, collatz_series
+from collatz import collatz, collatz_series
+from cartesian import cartesian
+from factoring import factors
 
 
 class Test_collatz(TestCase):

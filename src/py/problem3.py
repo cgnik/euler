@@ -1,4 +1,4 @@
-from util import factors
+from util.factoring import factors
 
 if __name__ == '__main__':
     num = 600851475143

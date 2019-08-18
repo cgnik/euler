@@ -1,6 +1,6 @@
 from multiprocessing import Pool
 
-from util import is_prime_quick
+from factoring import is_prime_quick
 
 
 class Primerator:

@@ -1,4 +1,4 @@
-from util import collatz_series
+from util.collatz import collatz_series
 
 
 def longest_collatz_between(start, end):

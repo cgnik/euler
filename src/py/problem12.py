@@ -1,4 +1,6 @@
-from util import cartesian_factors, factors, triangles
+from util.numeric import triangles
+from util.cartesian import cartesian_factors
+from util.factoring import factors
 
 
 def triangulate(start=2 ** 30, limit=100):

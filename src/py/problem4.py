@@ -1,4 +1,4 @@
-from util import find_palindromes
+from palindrome import find_palindromes
 
 
 def first(x): return x[0]
