@@ -15,32 +15,30 @@ data = [list(map(lambda x: int(x), a.split(' '))) for a in """75
 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23""".split("\n")]
 
 
-def next_step(indices, previous):
-    for x in indices:
-        if x[0] == previous[0] or x[0] == (previous[0] + 1):
-            return x
-    return previous
+def weight(row, column):
+    weight = data[row][column]
+    for i in range(0, len(data) - row):
+        weight += sum(data[row][column:column + i])
+    return weight
 
 
-def problem18():
-    sorteds = []
-    for rowidx in range(0, len(data)):
-        row = data[rowidx]
-        if row != data[-1]:
-            nextrow = data[rowidx + 1]
-            weights = [(idx, sum([a, nextrow[idx], nextrow[idx + 1]])) for idx, a in enumerate(row)]
-            weights.sort(key=lambda x: x[1], reverse=True)
-            sorteds.append(weights)
-
-    indices = []
-    last_index = (0, 0)
-    for s in sorteds:
-        last_index = next_step(s, last_index)
-        indices.append(last_index[0])
-    print('\n'.join([f"Sorteds: {s}" for s in sorteds]))
-    print(f"Indices: {indices}")
-    answers = [z[1][z[0]] for z in zip(indices, data)]
-    print(f"Answer ({sum(answers)}): {answers}")
+def weight_data(d):
+    weights = []
+    for xindex, x in enumerate(d):
+        weights.append([(yindex, xindex, weight(xindex, yindex)) for yindex, y in enumerate(x)])
+    for w in weights:
+        w.sort(key=lambda x: x[2], reverse=True)
+    return weights
 
 
-problem18()
+def problem18(d):
+    weights = weight_data(d)
+    for f in weights:
+        print(f)
+    answer_indices = [0, 1, 2, 2, 3, 4, 5, 6, 6, 7, 7, 6, 5, 6, 6]
+    answer = [r[answer_indices[rindex]] for rindex, r in enumerate(d)]
+    print(f"Answer: {sum(answer)} :: {answer}")
+    pass
+
+
+problem18(data)
