@@ -1,3 +1,5 @@
+from statistics import mean
+
 data = [list(map(lambda x: int(x), a.strip().split(' '))) for a in """75
                           95 64
                         17 47 82
@@ -15,17 +17,17 @@ data = [list(map(lambda x: int(x), a.strip().split(' '))) for a in """75
 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23""".split("\n")]
 
 
-def weight(row, column):
-    weight = data[row][column]
-    for i in range(0, len(data) - row):
-        weight += sum(data[row][column:column + i])
-    return weight
+def weight(d, row, column):
+    w = [d for i in range(0, len(data) - row) for d in data[i][column:column + i]]
+    if len(w) == 0:
+        return data[row][column]
+    return int(mean([data[row][column], mean(w)]))
 
 
 def weight_data(d):
     weights = []
     for xindex, x in enumerate(d):
-        weights.append([(yindex, xindex, weight(xindex, yindex)) for yindex, y in enumerate(x)])
+        weights.append([(yindex, xindex, weight(d, xindex, yindex), y) for yindex, y in enumerate(x)])
     for w in weights:
         w.sort(key=lambda x: x[2], reverse=True)
     return weights
@@ -35,31 +37,22 @@ def next_choices(c, last_index):
     return c[0] == last_index or c[0] == last_index + 1
 
 
-def pathize(weights, tiers):
-    last = weights[0][0]
-    indices = [last]
+def pathize(tiers, override={}):
+    weights = weight_data(tiers)
+    indices = [weights[0][0]]
     for dindex in range(1, len(tiers)):
-        if dindex == 0: continue
-        w = weights[dindex]
-        a, b = list(filter(lambda c: next_choices(c, last[0]), w))
-        if a[2] > b[2]:
-            next_step = a
+        if override.get(dindex):
+            indices.append(weights[dindex][override[dindex]])
         else:
-            next_step = b
-        indices.append(last)
-        last = next_step
+            a, b = list(filter(lambda c: next_choices(c, indices[-1][0]), weights[dindex]))
+            indices.append(a if a[2] > b[2] else b)
     return indices
 
 
 def problem18(d):
-    weights = weight_data(d)
-    for f in weights:
-        print(f)
-    answer_indices = pathize(weights, d)
-    print(f"Indices: {answer_indices}")
+    answer_indices = pathize(d, {1: 1})
     answer = [r[answer_indices[rindex][0]] for rindex, r in enumerate(d)]
     print(f"Answer: {sum(answer)} :: {answer}")
-    pass
 
 
 problem18(data)
