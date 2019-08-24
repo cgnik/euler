@@ -1,18 +1,17 @@
 from statistics import mean
 
 
-
-def weight(d, row, column):
+def weight_down(d, row, column):
     w = [d for i in range(0, len(d) - row) for d in d[i][column:column + i]]
     if len(w) == 0:
         return d[row][column]
     return int(mean([d[row][column], mean(w)]))
 
 
-def weight_data(d):
+def weight_data_down(d):
     weights = []
     for xindex, x in enumerate(d):
-        weights.append([(yindex, xindex, weight(d, xindex, yindex), y) for yindex, y in enumerate(x)])
+        weights.append([(yindex, xindex, weight_down(d, xindex, yindex), y) for yindex, y in enumerate(x)])
     for w in weights:
         w.sort(key=lambda x: x[2], reverse=True)
     return weights
@@ -23,7 +22,7 @@ def next_choices(c, last_index):
 
 
 def pathize(tiers, override={}):
-    weights = weight_data(tiers)
+    weights = weight_data_down(tiers)
     indices = [weights[0][0]]
     for dindex in range(1, len(tiers)):
         if override.get(dindex):
@@ -34,15 +33,19 @@ def pathize(tiers, override={}):
     return indices
 
 
-def next_index(this_index, nums):
-    ln = len(nums)
-    if this_index == 0 or ln == 1:
+def weight_up(grid, row_index, column_index):
+    return grid[row_index][column_index]
+
+
+def next_index(grid, row_index, column_index):
+    ln = len(grid[row_index])
+    if column_index == 0 or ln == 1:
         return 0
-    elif this_index >= ln:
-        return ln -1
-    elif nums[this_index] < nums[this_index - 1]:
-        return this_index - 1
-    return this_index
+    elif column_index >= ln:
+        return ln - 1
+    elif weight_up(grid, row_index, column_index) < weight_up(grid, row_index, column_index - 1):
+        return column_index - 1
+    return column_index
 
 
 def pathize_up(triangle):
@@ -53,7 +56,7 @@ def pathize_up(triangle):
         path = [(num_index, num)]
         for tier_index, tier in enumerate(tiers):
             if tier_index == 0: continue
-            up_index = next_index(path[-1][0], tier)
+            up_index = next_index(tiers, tier_index, path[-1][0])
             path.append((up_index, tier[up_index]))
         addends = [x[1] for x in path]
         if sum(addends) > sum(max_path):
