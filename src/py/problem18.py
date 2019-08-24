@@ -49,9 +49,36 @@ def pathize(tiers, override={}):
     return indices
 
 
+def nextmax(nums, notindices):
+    n = nums.copy()
+    n.sort(reverse=True)
+    count = 0
+    idx = None
+    while not idx or idx in notindices:
+        idx = nums.index(n[count])
+        count += 1
+    return idx
+
+
+def pathize_up(tiers):
+    indices = []
+    lastidx = None
+    for i in reversed(range(0, len(tiers))):
+        notindices = []
+        for j in range(0, len(tiers[i])):
+            maxidx = nextmax(tiers[i], notindices)
+            if not lastidx or maxidx == lastidx or maxidx == lastidx - 1:
+                break
+        indices.append(maxidx)
+        lastidx = maxidx
+    indices.reverse()
+    return indices
+
+
 def problem18(d):
-    answer_indices = pathize(d, {1: 1})
-    answer = [r[answer_indices[rindex][0]] for rindex, r in enumerate(d)]
+    answer_indices = pathize_up(d)
+    # answer = [r[answer_indices[rindex]] for rindex, r in enumerate(d)]
+    answer = [r[answer_indices[rindex]] for rindex, r in enumerate(d)]
     print(f"Answer: {sum(answer)} :: {answer}")
 
 
