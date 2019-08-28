@@ -33,8 +33,24 @@ def pathize(tiers, override={}):
     return indices
 
 
+def from_index(grid, row_index, column_index):
+    nexts = []
+    if row_index > len(grid):
+        return nexts
+    row = grid[row_index + 1]
+    if column_index < len(row):
+        nexts.append(row[column_index])
+    if column_index > 0:
+        nexts.append(row[column_index - 1])
+    return nexts
+
+
 def weight_up(grid, row_index, column_index):
-    return grid[row_index][column_index]
+    weights = [grid[row_index][column_index]]
+    next_weights = from_index(grid, row_index, column_index)
+    if len(next_weights):
+        weights.append(mean(next_weights))
+    return sum(weights)
 
 
 def next_index(grid, row_index, column_index):
@@ -52,17 +68,40 @@ def pathize_up(triangle):
     tiers = triangle.copy()
     tiers.reverse()
     max_path = [0]
+    paths = []
     for num_index, num in enumerate(tiers[0]):
         path = [(num_index, num)]
         for tier_index, tier in enumerate(tiers):
             if tier_index == 0: continue
             up_index = next_index(tiers, tier_index, path[-1][0])
             path.append((up_index, tier[up_index]))
+        # print(f"path: {path}")
         addends = [x[1] for x in path]
         if sum(addends) > sum(max_path):
             max_path = addends
     max_path.reverse()
     return max_path
+
+
+def problem18up(d):
+    answer = pathize_up(d)
+    print(f"Up-path answer: {sum(answer)} :: {answer}")
+
+
+def elaborate(d, row, column):
+    if row < len(d) - 1:
+        paths = elaborate(d, row + 1, column) + elaborate(d, row + 1, column + 1)
+        for p in paths:
+            p.insert(0, d[row][column])
+        return paths
+    return [[d[row][column]]]
+
+
+def problem18brute(d):
+    all = [(sum(e), e) for e in elaborate(d, 0, 0)]
+    best = max(all, key=lambda x: x[0])
+    # answer: (1074, [75, 64, 82, 87, 82, 75, 73, 28, 83, 32, 91, 78, 58, 73, 93])
+    print(f"Brute answer: {best}")
 
 
 def problem18():
@@ -81,9 +120,8 @@ def problem18():
         91 71 52 38 17 14 91 43 58 50 27 29 48
       63 66 04 68 89 53 67 30 73 16 69 87 40 31
     04 62 98 27 23 09 70 98 73 93 38 53 60 04 23""".split("\n")]
-
-    answer = pathize_up(d)
-    print(f"Answer: {sum(answer)} :: {answer}")
+    problem18brute(d)
+    problem18up(d)
 
 
 problem18()
