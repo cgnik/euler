@@ -1,9 +1,21 @@
+import itertools as it
+import numpy as np
+
 from math import sqrt
 
-from divisible import divisible_by
+from util.divisible import divisible_by
 
 
-def factors(num, log=False):
+def all_factors(num):
+    def cart(nums):
+        return list(filter(lambda x: num % x == 0, [a[0] * a[1] for a in it.product(np.array(nums), np.array(nums))]))
+
+    answer = list(set(cart(cart(list(factors(num))))))
+    answer.remove(num)
+    return answer
+
+
+def factors(num):
     n = num
     yield 1
     for x in [2, 3, 5, 7]:

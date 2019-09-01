@@ -22,7 +22,6 @@ class Test_grids(TestCase):
         def sickerize(n):
             arr = np.arange(n ** 2).reshape((n, n))
             x = get_sticks(arr)
-            print(f"{n} sticks: {len(x)}\n\tX :: {x}")
 
         for n in [2, 3, 6, 7, 8, 9, 20]:
             sickerize(n)
