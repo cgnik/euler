@@ -1,7 +1,8 @@
 from unittest import TestCase
 
 import numpy as np
-from util.factoring import factors, all_factors
+from util.factoring import factors
+from util.cartesian import all_factors
 
 
 class Test_factors(TestCase):

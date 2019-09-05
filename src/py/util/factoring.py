@@ -1,27 +1,7 @@
-import itertools as it
-import numpy as np
-
 from math import sqrt
 
 from util.divisible import divisible_by
 
-
-def all_factors(num):
-    def cart(nums):
-        product_pairs = it.product(np.array(nums), np.array(nums))
-        products = [a[0] * a[1] for a in product_pairs]
-        divisors = list(filter(lambda x: num % x == 0, products))
-        return divisors
-
-    def cart_loop(num, count):
-        facs = list(factors(num))
-        for c in range(0, count):
-            facs = list(set(cart(facs)))
-        return facs
-
-    answer = cart_loop(num, 8)
-    answer.remove(num)
-    return answer
 
 
 def factors(num):

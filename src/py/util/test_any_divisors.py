@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from divisible import divisible_by
+from util.divisible import divisible_by
 
 
 class Test_divisible_by(TestCase):

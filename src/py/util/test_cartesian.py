@@ -1,8 +1,7 @@
 from unittest import TestCase
 
 import numpy as np
-from cartesian import cartesian
-from factoring import factors
+from util.cartesian import cartesian
 
 
 class Test_cartesian(TestCase):
@@ -10,7 +9,9 @@ class Test_cartesian(TestCase):
         def lte(limit):
             def test(x):
                 return x <= limit
+
             return test
+
         self.assertListEqual(listify(cartesian(lte(2), [1])), [1])
         self.assertListEqual(listify(cartesian(lte(16), [1, 2])), [1, 2, 4, 8, 16])
         self.assertListEqual(listify(cartesian(lte(81), [1, 3])), [1, 3, 9, 27, 81])
