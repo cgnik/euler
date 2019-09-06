@@ -12,25 +12,18 @@
 import numpy as np
 import itertools as it
 
-from util.cartesian import cartesian_product, all_factors
+from util.abundant import abundant_numbers, contains_sum_for
 
-max_abundant = 28123 + 1
+max_abundant = 28123
+
 
 def problem23():
-    abundants = []
-    with open("abundants.txt") as f:
-        abundants = list(map(int, f.read().strip().split(',')))
-    if len(abundants) == 0:
-        abundants = abundant_numbers(max_abundant)
-        with open("abundants.txt", "w") as f:
-            f.write(','.join(abundants))
-    print(f"abundants ({len(abundants)}): {abundants}")
-    all_nums = set(range(1, max_abundant))
-    all_sums = set([x[0] + x[1] for x in it.product(np.array(abundants), np.array(abundants))])
-    all_sums = set(filter(lambda x: x <= max_abundant, all_sums))
-    print(f"all sums ({len(all_sums)} {max(all_sums)}): {all_sums}")
-    all_diff = {e for e in all_nums if e not in all_sums and e not in abundants}
-    print(f"all diff (sum {sum(all_diff)}, {max(all_diff)}): {all_diff}")
+    print("Calculating abundants...")
+    abundant = abundant_numbers(max_abundant)
+    print("Calculating positive integers not a sum of abundant numbers...")
+    non_sums = list(set([x for x in range(1, max_abundant) if not contains_sum_for(x, abundant) and x not in abundant]))
+    non_sums.sort()
+    print(f"All non-sums (sum {sum(non_sums)}, count {len(non_sums)}): {non_sums}")
 
 
 problem23()
