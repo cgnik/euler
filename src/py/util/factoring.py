@@ -14,7 +14,8 @@ def factors(num):
     while f <= int(sqrt(n)):
         if n % f == 0:
             yield f
-            n = int(n / f)
+            while n % f == 0:
+                n = int(n / f)
         f += 2
     # compensate for 22/11 problem
     if num % n == 0: yield n

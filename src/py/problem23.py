@@ -18,6 +18,7 @@ max_abundant = 28123
 
 def problem23():
     print("Calculating abundants...")
+    abundants = abundant_numbers(max_abundant)
     print("Calculating positive integers not a sum of abundant numbers...")
     non_sums = list(set([x for x in range(1, max_abundant) if not contains_sum_for(x, abundants)]))
     non_sums.sort()
