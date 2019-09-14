@@ -21,7 +21,8 @@ class Test_factors(TestCase):
         self.assertListEqual(listify(all_factors(220)), [1, 2, 4, 5, 10, 11, 20, 22, 44, 55, 110])
         self.assertListEqual(listify(all_factors(284)), [1, 2, 4, 71, 142])
         self.assertListEqual(listify(all_factors(1210)), [1, 2, 5, 10, 11, 22, 55, 110, 121, 242, 605])
-        self.assertListEqual(listify(all_factors(11132)), [1, 2, 4, 11, 22, 23, 44, 46, 92, 121, 242, 253, 484, 506, 1012, 2783, 5566])
+        self.assertListEqual(listify(all_factors(11132)),
+                             [1, 2, 4, 11, 22, 23, 44, 46, 92, 121, 242, 253, 484, 506, 1012, 2783, 5566])
 
 
 def listify(gen):
