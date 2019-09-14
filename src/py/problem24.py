@@ -7,31 +7,13 @@
 # 012   021   102   120   201   210
 #
 # What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?
-
-def swap(arr1, index1, arr2, index2):
-    x = arr1[index1]
-    arr1[index1] = arr2[index2]
-    arr2[index2] = x
-
-
-def heap(c):
-    i
-    while i < len(c):
-        if c[i] < i:
-            if i % 2 == 0:
-                swap(A, 0, A, i)
-            else:
-                swap(A[c[i]], A[i])
-            print(A)
-            c[i] += 1
-            i = 0
-        else:
-            c[i] = 0
-            i += 1
+from util.permutation import permutations
 
 
 def problem24():
-    generate([str(n) for n in range(0, 10)])
+    p = [''.join(p) for p in permutations([str(n) for n in range(0, 10)]) if p[0] in "012"]
+    p.sort()
+    print(f"Problem 24: Millionth permutation sorted lexically (total count {len(p)}): {p[999999]}")
 
 
 problem24()
