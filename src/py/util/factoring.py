@@ -3,7 +3,6 @@ from math import sqrt
 from util.divisible import divisible_by
 
 
-
 def factors(num):
     n = num
     yield 1
