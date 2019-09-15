@@ -12,9 +12,15 @@
 # Where 0.1(6) means 0.166666..., and has a 1-digit recurring cycle. It can be seen that 1/7 has a 6-digit recurring cycle.
 #
 # Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part.
+from util.repeats import unit_fraction_cycle
+
 
 def problem26():
-    pass
+    candidates = [(x, unit_fraction_cycle(x)) for x in range(1, 1000)]
+    candidates = list(filter(lambda x: x[1] != '', candidates))
+    candidates = [(len(c[1], c[0], c[1]) for c in candidates)]
+    candidates.sort()
+    print(f"Problem 26: answer? {candidates[0]} ;  candidates(len {len(candidates)}): {candidates}")
 
 
 problem26()
