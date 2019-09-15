@@ -23,7 +23,7 @@ def factors(num):
 
 
 def is_prime(x, lower_primes):
-    divisors = filter(lambda b: (b <= int(x / 2)), lower_primes)
+    divisors = filter(lambda b: b <= int(x / 2), lower_primes)
     return not divisible_by(x, divisors)
 
 

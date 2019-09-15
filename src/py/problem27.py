@@ -13,9 +13,24 @@
 # e.g. |11|=11 and |−4|=4
 # Find the product of the coefficients, a and b, for the quadratic expression that produces the maximum number of primes for consecutive values of n, starting with n=0.
 
+from multiprocessing import Process, Pipe, Pool
+
+import numpy as np
+import itertools as it
+
+from util.quadratic_primes import sign_combos
+
 
 def problem27():
-    pass
+    coefficients = np.arange(0, 1001)
+
+    with Pool(6) as pool:
+        results = pool.map_async(sign_combos, it.product(coefficients, coefficients))
+        out = [r for r in results.get() if r[0] > 1]
+        out.sort(reverse=True)
+        print(f"Result count: {len(out)}, max: {max(out)}, out: {out}")
+        print(f"Answer: {out[0][1][0] * out[0][1][1]} with prime count {out[0][0]} and coefficients {out[1]}")
+    print(f"Problem 27: complete")
 
 
 problem27()
