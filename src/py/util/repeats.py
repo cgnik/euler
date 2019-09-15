@@ -1,8 +1,9 @@
 import re, decimal
 
+max_precision = 4096
 
-def unit_fraction_cycle(n, precision):
-    decimal.setcontext(decimal.Context(prec=precision, rounding=decimal.ROUND_HALF_DOWN))
+def unit_fraction_cycle(n):
+    decimal.setcontext(decimal.Context(prec=max_precision, rounding=decimal.ROUND_HALF_DOWN))
     val = str(decimal.Decimal(1) / decimal.Decimal(n))
     if val and '.' in val:
         s = val.split('.')[1][:-1]
@@ -10,19 +11,30 @@ def unit_fraction_cycle(n, precision):
     return ''
 
 
-def repeats(s):
-    l_str = len(s)
-    l_max = int(l_str / 2)
-    combos = []
-    if len(s) > 1 and len(re.findall(s[0], s)) == len(s):
-        return s[0]
-    for start in range(0, l_max):
-        combos.extend([s[start:end + start] for end in range(start, l_max + 1)])
-    combos = set(combos)
-    matches = [(len(re.findall(c, s)), len(c), (len(s) - s.index(c)), c) for c in combos if tip_to_tail(s, c)]
-    matches.sort(reverse=True)
-    if len(matches) > 0 and matches[0][0] > 1:
-        return matches[0][3]
+def repeats(big_s):
+    def find_repeats(s):
+        l_str = len(s)
+        l_max = int(l_str / 2)
+        combos = []
+        if len(s) > 1 and len(re.findall(s[0], s)) == len(s):
+            return s[0]
+        for start in range(0, l_max):
+            combos.extend([s[start:end + start] for end in range(start, l_max + 1)])
+        combos = set(combos)
+        matches = [(len(re.findall(c, s)), len(c), (len(s) - s.index(c)), c) for c in combos if tip_to_tail(s, c)]
+        matches.sort(reverse=True)
+        if len(matches) > 0 and matches[0][0] > 1:
+            return matches[0][3]
+        return ''
+
+    l_full = len(big_s)
+    l_part = 16
+    while l_part <= l_full:
+        cycle = find_repeats(big_s[:l_part])
+        if cycle != '':
+            return cycle
+        l_part *= 2
+        l_part = min(l_part, l_full)
     return ''
 
 
