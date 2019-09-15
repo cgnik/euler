@@ -14,13 +14,22 @@
 # Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part.
 from util.repeats import unit_fraction_cycle
 
+max_precision = 4096
+
 
 def problem26():
-    candidates = [(x, unit_fraction_cycle(x)) for x in range(1, 1000)]
+    candidates = []
+    print("Problem 26: Unit fraction cycles")
+    for x in range(7, 1000):
+        print(f"\rcalculating cycles: {int(x / 10)}%", end='', flush=True)
+        cycle = unit_fraction_cycle(x, max_precision)
+        if cycle != '':
+            candidates.append((x, cycle))
     candidates = list(filter(lambda x: x[1] != '', candidates))
-    candidates = [(len(c[1], c[0], c[1]) for c in candidates)]
-    candidates.sort()
-    print(f"Problem 26: answer? {candidates[0]} ;  candidates(len {len(candidates)}): {candidates}")
+    candidates = [(len(c[1]), c[0], c[1]) for c in candidates]
+    candidates.sort(reverse=True)
+    print(f"\nCandidates(len {len(candidates)}): {candidates}")
+    print(f"Problem 26 answer: {candidates[0]}")
 
 
 problem26()

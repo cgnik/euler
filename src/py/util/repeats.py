@@ -1,13 +1,12 @@
-import re
-from decimal import Decimal
+import re, decimal
 
 
-def unit_fraction_cycle(n):
-    val = str(1 / Decimal(n))
+def unit_fraction_cycle(n, precision):
+    decimal.setcontext(decimal.Context(prec=precision, rounding=decimal.ROUND_HALF_DOWN))
+    val = str(decimal.Decimal(1) / decimal.Decimal(n))
     if val and '.' in val:
         s = val.split('.')[1][:-1]
-        if len(s) >= 16:
-            return repeats(s)
+        return repeats(s)
     return ''
 
 
