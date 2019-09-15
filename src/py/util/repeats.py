@@ -16,12 +16,11 @@ def repeats(s):
     # special exception for all same string
     if len(s) > 1 and len(re.findall(s[0], s)) == len(s):
         return s[0]
-    for l in range(0, l_max):
-        combos.extend([s[l:t] for t in range(l, l_max + 1)])
+    for start in range(0, l_max):
+        combos.extend([s[start:end + start] for end in range(start, l_max + 1)])
     combos = set(combos)
     print(f"Combos ({s}, max: {l_max}, l: {l_str}): {combos}")
-    matches = [(len(re.findall(c, s)), len(c), (len(s) - s.index(c)), c) for c in combos if
-               c != '' and tip_to_tail(s, c)]
+    matches = [(len(re.findall(c, s)), len(c), (len(s) - s.index(c)), c) for c in combos if tip_to_tail(s, c)]
     matches.sort(reverse=True)
     print(f"Matches ({s}): {matches}")
     if len(matches) > 0 and matches[0][0] > 1:
@@ -30,6 +29,8 @@ def repeats(s):
 
 
 def tip_to_tail(s, sub):
+    if len(sub) == 0 or len(s) == 0:
+        return False
     others = [o for o in s.split(sub)[1:] if o != sub and len(o) > 0]
     if len(others) > 0 and sub.startswith(others[-1]):
         others = others[:-1]

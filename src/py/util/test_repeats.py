@@ -9,8 +9,8 @@ class Test_repeats(TestCase):
         self.assertEqual('', repeats('f'))
         self.assertEqual('f', repeats('ff'))
         self.assertEqual('flibbidy', repeats('flibbidyflibbidy'))
-        self.assertEqual('flibbidy', repeats('jibbetflibbidyflibbidyf'))
         self.assertEqual('', repeats('jibbetflibbidyflib'))
+        self.assertEqual('flibbidy', repeats('jibbetflibbidyflibbidyflib'))
 
     def test_unit_fraction_cycle(self):
         self.assertEqual('', unit_fraction_cycle(2))
