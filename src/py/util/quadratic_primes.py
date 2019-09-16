@@ -12,6 +12,7 @@ def consecutive_primes(ab):
         n += 1
         if not is_prime_quick(expr(n, ab)):
             return n
+    return 0
 
 
 signs = np.array([(-1, 1), (1, -1), (-1, -1), (1, 1)])

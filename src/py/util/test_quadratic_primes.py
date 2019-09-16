@@ -12,4 +12,4 @@ class Test_quadratic_primes(TestCase):
         self.assertEqual(1681, expr(40, (1, 41)))
 
     def test_sign_combos(self):
-        self.assertEqual(40, sign_combos((1, 41)))
+        self.assertEqual(41, sign_combos((1, 41))[0])

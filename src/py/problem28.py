@@ -10,11 +10,12 @@
 #
 # What is the sum of the numbers on the diagonals in a 1001 by 1001 spiral formed in the same way?
 
-from util.spiral import diagonal_sums
+from util.spiral import diagonal_values
 
 
 def problem28():
-    print(f"Problem 28: {diagonal_sums(1001)}")
+    values = diagonal_values(1001)
+    print(f"Problem 28: sum: {sum(values)}, count: #{len(values)}, values: {', '.join(values)}")
 
 
 problem28()

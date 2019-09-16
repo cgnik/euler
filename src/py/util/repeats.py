@@ -2,6 +2,7 @@ import re, decimal
 
 max_precision = 4096
 
+
 def unit_fraction_cycle(n):
     decimal.setcontext(decimal.Context(prec=max_precision, rounding=decimal.ROUND_HALF_DOWN))
     val = str(decimal.Decimal(1) / decimal.Decimal(n))
@@ -16,8 +17,6 @@ def repeats(big_s):
         l_str = len(s)
         l_max = int(l_str / 2)
         combos = []
-        if len(s) > 1 and len(re.findall(s[0], s)) == len(s):
-            return s[0]
         for start in range(0, l_max):
             combos.extend([s[start:end + start] for end in range(start, l_max + 1)])
         combos = set(combos)
@@ -27,11 +26,14 @@ def repeats(big_s):
             return matches[0][3]
         return ''
 
+    if len(big_s) > 1 and len(re.findall(big_s[0], big_s)) == len(big_s):
+        return big_s[0]
+
     l_full = len(big_s)
     l_part = 16
     while l_part <= l_full:
         cycle = find_repeats(big_s[:l_part])
-        if cycle != '':
+        if cycle != '' or l_part >= l_full:
             return cycle
         l_part *= 2
         l_part = min(l_part, l_full)
