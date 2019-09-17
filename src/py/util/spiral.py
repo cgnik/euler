@@ -1,12 +1,19 @@
 import numpy as np
 
 
-def diagonal_values(length):
-    if length % 2 == 0: raise ValueError("Cannot spiral_grid even length")
-    values = [1, 3]
-    offset = 0
-    for l in range(2, int(length / 2) + 2):
-        for r in range(0, 3 + offset):
-            values.append(values[-1] + l + offset)
-        offset += 1
-    return values
+def spiral_diagonals(length):
+    return list(diagonal_values(2 * length - 1))
+
+
+def diagonal_values(cycles):
+    offset = 2
+    cycle = 0
+    previous = 1
+    yield previous
+    while cycle + 1 < cycles:
+        cycle += 1
+        previous += offset
+        if cycle % 4 == 0:
+            offset += 2
+        yield previous
+    return

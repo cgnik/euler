@@ -9,7 +9,6 @@ def abundant_numbers(up_to):
             abundants.append(n)
     abundants = list(set(abundants))
     abundants.sort()
-    print(f"\rdone. abundants: {abundants}")
     return abundants
 
 

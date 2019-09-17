@@ -15,7 +15,10 @@ from util.spiral import diagonal_values
 
 def problem28():
     values = diagonal_values(1001)
-    print(f"Problem 28: sum: {sum(values)}, count: #{len(values)}, values: {', '.join(values)}")
+    # think it should be 2001 count of integers, given width of 1001
+    # should have a list of 2n-1 integers (by count), considering the 5x5 example
+    print(f"values: {', '.join([str(v) for v in values[:22]])}")
+    print(f"Problem 28: sum: {sum(values)}, count: #{len(values)}")
 
 
 problem28()
