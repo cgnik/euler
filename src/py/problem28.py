@@ -10,14 +10,14 @@
 #
 # What is the sum of the numbers on the diagonals in a 1001 by 1001 spiral formed in the same way?
 
-from util.spiral import diagonal_values
+from util.spiral import spiral_diagonals
 
 
 def problem28():
-    values = diagonal_values(1001)
+    values = spiral_diagonals(1001)
     # think it should be 2001 count of integers, given width of 1001
     # should have a list of 2n-1 integers (by count), considering the 5x5 example
-    print(f"values: {', '.join([str(v) for v in values[:22]])}")
+    print(f"values: {', '.join([str(v) for v in values])}")
     print(f"Problem 28: sum: {sum(values)}, count: #{len(values)}")
 
 
