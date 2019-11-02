@@ -2,29 +2,18 @@ import itertools as it
 
 import numpy as np
 
+# NEED TO DEDUPE/SIMPLIFY_POWERS ON THE POWS LIST BEFORE USING IT. CHICKENEGG.
+pows = {a ** b: (a, b) for b in range(2, 10) for a in range(2, 10)}
+print(f"POWERS: {pows}")
+
 
 def distinct_powers(l, h):
     values = np.arange(l, h + 1)
-    terms = {exp_by_squaring(t[0], t[1]) for t in it.product(values, values)}
-    print(f"terms: {terms}")
-    # terms = np.asarray([t for t in it.product(values, values)], dtype=np.uint64)
-    # powers = {u for u in np.power(terms[:, 0], terms[:, 1], dtype=np.uint64)}
-    # print(f"powers {powers}")
-    return terms
+    terms = {simplify_powers(*p) for p in it.product(values, values)}
+    print(f"terms {terms}")
+    return len(terms)
 
 
-def exp_by_squaring(x, n):
-    return _exp_by_squaring_(1, x, n)
-
-
-def _exp_by_squaring_(y, x, n):
-    if n < 0:
-        return _exp_by_squaring_(y, 1 / x, - n)
-    elif n == 0:
-        return y
-    elif n == 1:
-        return x * y
-    elif n % 2 == 0:
-        return _exp_by_squaring_(y, x * x, n / 2)
-    elif n % 2 == 1:
-        return _exp_by_squaring_(x * y, x * x, (n - 1) / 2)
+def simplify_powers(base, pow):
+    multiplier = pows.get(base, (1, 1))
+    return int(base ** (1 / multiplier[1])), pow * multiplier[1]

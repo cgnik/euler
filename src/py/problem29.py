@@ -14,7 +14,7 @@ from util.distinct_powers import distinct_powers
 
 
 def problem29():
-    print(f"Problem 29: {len(set(distinct_powers(2, 100)))}")
+    print(f"Problem 29: {distinct_powers(2, 100)}")
 
 
 problem29()

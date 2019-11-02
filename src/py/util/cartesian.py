@@ -52,7 +52,8 @@ def cartesian_loop(n, count):
     return facs
 
 
-def all_factors(num):
+def all_factors(num, include_self=False):
     answer = cartesian_loop(num, 8)
-    answer.remove(num)
+    if not include_self:
+        answer.remove(num)
     return answer
