@@ -21,11 +21,3 @@ def problem30():
 
 
 problem30()
-
-# /home/christo/dev/euler/src/py/venv/bin/python /home/christo/dev/euler/src/py/problem30.py
-# calculating power sums with upper limit of 10000000
-# 100% complete.
-# Problem 30 found 6 sums of fifth powers [4150, 4151, 54748, 92727, 93084, 194979]
-# Problem 30: 443839
-#
-# Process finished with exit code 0
