@@ -14,3 +14,5 @@ class Test_distinct_powers(TestCase):
         self.assertEqual(simplify_exponent(16, 2), (2, 8))
         self.assertEqual(simplify_exponent(2, 2), (2, 2))
         self.assertEqual(simplify_exponent(7, 7), (7, 7))
+        self.assertEqual(simplify_exponent(64, 2), (2, 12))
+        self.assertEqual(simplify_exponent(4, 3), (2, 6))
