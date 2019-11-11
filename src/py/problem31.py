@@ -14,6 +14,7 @@ def problem31():
     # maximum possible number of things in solution is 200, if they were all 1s
     # minimum possible number of things is 1, if it was just one 200
     # related to: number theory "partitions"
+    # reading: https://en.wikipedia.org/wiki/Partition_%28number_theory%29
     answer = 0
     print(f"Problem 31: {answer}")
 
