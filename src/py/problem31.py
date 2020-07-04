@@ -6,17 +6,37 @@
 # 1×£1 + 1×50p + 2×20p + 1×5p + 1×2p + 3×1p
 # How many different ways can £2 be made using any number of coins?
 
-coins = [1, 2, 5, 10, 20, 50, 100, 200]
+# https://en.wikipedia.org/wiki/Partition_(number_theory)
+# these are the "partitions" of 200, and so predicted by a partition function
+# no closed form of the function is known
+def make_change(amount, coins):
+    counts = [0] * (amount + 1)
+    # have to initialize with 1 as 'seed'
+    counts[0] = 1 # p(0) === 1
+    for coin in coins:
+        for i in range(coin, len(counts)):
+            counts[i] = counts[i] + counts[i - coin]
+        print(f"DEBUG: coin/index/counts: {coin}/{counts}")
+    return counts[-1]
+
+
+def change_largest_coin(coins):
+    return make_change(max(coins), coins)
+
+
+def problem31_american():
+    print(f"Problem 31 American: {change_largest_coin([1, 5, 10, 25, 50, 100])}")
+
+
+def problem31_english():
+    print(f"Problem 31 English: {change_largest_coin([1, 2, 5, 10, 20, 50, 100, 200])}")
 
 
 def problem31():
-    # need to figure out all permutations which sum to 200
-    # maximum possible number of things in solution is 200, if they were all 1s
-    # minimum possible number of things is 1, if it was just one 200
-    # related to: number theory "partitions"
-    # reading: https://en.wikipedia.org/wiki/Partition_%28number_theory%29
-    answer = 0
-    print(f"Problem 31: {answer}")
+    print(f"Problem 31 test: 12: {make_change(12, [1, 2, 5])}")
+    print(f"Problem 31 test: 10: {change_largest_coin([1, 5, 10])}")
+    problem31_american()
+    problem31_english()
 
 
 problem31()
