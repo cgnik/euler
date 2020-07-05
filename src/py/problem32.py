@@ -6,52 +6,20 @@
 # Find the sum of all products whose multiplicand/multiplier/product identity can be written as a 1 through 9 pandigital.
 #
 # HINT: Some products can be obtained in more than one way so be sure to only include it once in your sum.
-import sys
+import util.permutation as p
+
+numbers = "123456789"
 
 
-def is_pandigital(x, c):
-    p = x * c
+def is_pandigital(x, c, p):
     s = list('{}{}{}'.format(x, c, p))
     s.sort()
-    return ''.join(s) == "123456789"
+    return ''.join(s) == numbers
 
 
-def gen_bits(bit_count, max_bits):
-    end = pow(2, max_bits) + 1
-    for i in range(0, end):
-        if bin(i).count('1') == bit_count:
-            yield i
-
-
-def combinations(people, seat_count=0):
-    if seat_count < 1:
-        seat_count = len(people)
-    # assumption: len(people) >= seats
-    # strategy: use a bit to rep a single person
-    # generate all possible numbers with bit array of len(people)
-    # find all values in that list with seat_count bits turned on
-    # map back onto people and output
-    results = []
-    for combo in gen_bits(seat_count, len(people)):
-        print(f"result: {combo:>08b}")
-
-
-def permute(a, k):
-    # heap's algorithm
-    if k == 1:
-        yield a.copy()
-    else:
-        yield from permute(a, k - 1)
-        for i in range(0, k - 1):
-            if k % 2 == 0:
-                a[i], a[i - 1] = a[i - 1], a[i]
-            else:
-                a[0], a[i] = a[i], a[0]
-            yield from permute(a, k - 1)
-
-
-def permute_all(a):
-    return permute(a, len(a))
+def make_ints(charrays):
+    for a in charrays:
+        yield int(''.join(a))
 
 
 def problem32():
@@ -61,19 +29,24 @@ def problem32():
     # considering that the use of 5 characters on the left of = would
     # necessitate the presence of no more than 4 on the right, which could
     # only be true if it was something like 2*4-digit=other-4-digit
-    # this is like a 5 peopl in 3 chairs problem: factorial(9) / (factorial(9 - 4))
+    # this is like a 5 people in 3 chairs problem: factorial(9) / (factorial(9 - 4))
     # so there are only 3024 permutations of "123456789" in 4 slots, 504 in 3 slots,
     # 72 in 2 slots, and 9 in 1 slot, making this brute-forceable
-    assert is_pandigital(39, 186)
-    assert list(permute_all(list("12"))) == [["1", "2"], ["2", "1"]]
-    assert list(permute_all(list("123"))) == [
-        ['1', '2', '3'],
-        ['3', '2', '1'],
-        ['3', '2', '1'],
-        ['1', '2', '3'],
-        ['2', '1', '3'],
-        ['3', '1', '2']]
-    print(f"Done.")
+    assert is_pandigital(39, 186, 39*186)
+
+    num_list = list(numbers)
+    arg_lists = [list(make_ints(p.permute_all_combinations(num_list, n))) for n in range(1, 5)]
+    # all pairings of arg lists, find products
+    candidates = set()
+    for arg_list in p.combinations(arg_lists, 2):
+        for arga in arg_list[0]:
+            for argb in arg_list[1]:
+                candidates.add((arga, argb, arga * argb))
+
+    pandigitals = list(filter(lambda x: is_pandigital(x[0], x[1], x[2]), candidates))
+
+    print(f"{pandigitals} Done.")
+    print(f"{sum(set([p[2] for p in pandigitals]))} Done.")
 
 
 problem32()
