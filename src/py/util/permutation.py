@@ -69,3 +69,4 @@ def permute_all_combinations(a, length):
     for c in combinations(a, length):
         results += permute_all(c)
     return set(map(tuple, results))
+
